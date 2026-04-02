@@ -2,15 +2,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function formuser() {
+export default function formuser({ initialUsers }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const router = useRouter();
+  const [users, setUsers] = useState(initialUsers);
+  // const [users, setUsers] = useState();
+
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3001/users", {
+    const newUser = await fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -19,7 +23,8 @@ export default function formuser() {
     });
 
     alert("User ditambahkan");
-    router.refresh();
+    // onAddUser(data);
+    setUsers((prev) => [newUser, prev])
 
     // reset input
     setName("");

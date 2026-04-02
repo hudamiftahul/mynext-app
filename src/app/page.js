@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Form from "./components/formuser";
+import TabelUser from "./components/tabeluser";
 
 // async function getUsers() {
 //   const res = await fetch("https://jsonplaceholder.typicode.com/users");
@@ -13,6 +14,8 @@ async function getUsers() {
 
   return res.json();
 }
+
+
 
 
 
@@ -34,13 +37,16 @@ export default async function Home() {
           placeholder="Cari user..."
           className="border p-2 rounded w-full mb-4"
         />
-        < Form />
-        <table className="w-full border border-gray-300 mt-5">
+        {/* < Form /> */}
+        <Form  initialUsers={users}/>
+        <TabelUser initialUsers={users} />
+        {/* <table className="w-full border border-gray-300 mt-5">
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className="p-3 text-left">No</th>
               <th className="p-3 text-left">Nama</th>
               <th className="p-3 text-left">Email</th>
+              <th className="p-3 text-left">Action</th>
             </tr>
           </thead>
 
@@ -50,10 +56,15 @@ export default async function Home() {
                 <td className="p-3">{user.id}</td>
                 <td className="p-3">{user.name}</td>
                 <td className="p-3">{user.email}</td>
+                <td>
+                  <button onClick={() => handleDelete(user.id)} className="p-3 bg-red-500 text-white px-3 py-1 rounded">
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
       </div>
     </div>
   );
