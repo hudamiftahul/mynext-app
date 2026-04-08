@@ -54,12 +54,19 @@ export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
         onChange={(e) => setEmail(e.target.value)}
         className="border p-2 mr-2"
       />
-      {/* <button className="bg-blue-500 text-white px-4 py-2 w-full">
-        {editingUser ? "Update" : "Tambah"}
-      </button> */}
+      
       <button className="bg-blue-500 text-white px-4 py-2"> 
         {editingUser ? "Update" : "Tambah"} 
       </button>
+      {editingUser && (
+        <button
+          type="button"
+          onClick={() => editingUser(null)}
+          className="bg-gray-500 text-white px-4 py-2 ml-2"
+        >
+          Cancel
+        </button>
+      )}
       
     </form>
   );
