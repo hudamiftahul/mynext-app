@@ -1,25 +1,10 @@
 import Link from "next/link";
-import Form from "./components/formuser";
 import TabelUser from "./components/tabeluser";
-
-// async function getUsers() {
-//   const res = await fetch("https://jsonplaceholder.typicode.com/users");
-//   return res.json();
-// }
-
-async function getUsers() {
-  const res = await fetch("http://localhost:3001/users", {
-    cache: "no-store"
-  });
-
-  return res.json();
-}
-
-
-
-
+import { getUsers } from "./components/api";
+import Form from "./components/formuser"
 
 export default async function Home() {
+
   const users = await getUsers();
 
   return (
@@ -38,33 +23,13 @@ export default async function Home() {
           className="border p-2 rounded w-full mb-4"
         />
         {/* < Form /> */}
-        <Form  initialUsers={users}/>
-        <TabelUser initialUsers={users} />
-        {/* <table className="w-full border border-gray-300 mt-5">
-          <thead className="bg-gray-800 text-white">
-            <tr>
-              <th className="p-3 text-left">No</th>
-              <th className="p-3 text-left">Nama</th>
-              <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id } className="border-t hover:bg-gray-100">
-                <td className="p-3">{user.id}</td>
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">{user.email}</td>
-                <td>
-                  <button onClick={() => handleDelete(user.id)} className="p-3 bg-red-500 text-white px-3 py-1 rounded">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
+        {/* <Form
+          onAddUser={(newUser) => {
+            setUsers((prev) => [newUser, ...prev]) // 🔥 auto refresh
+          }}
+        /> */}
+        return <TabelUser initialUsers={users} />
+        
       </div>
     </div>
   );

@@ -1,35 +1,24 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function formuser({ initialUsers }) {
+import { useState } from "react";
+import { addUser } from "./api"
+
+export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [users, setUsers] = useState(initialUsers);
-  // const [users, setUsers] = useState();
-
-
-  
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const newUser = await fetch("http://localhost:3001/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name, email })
-    });
+    const data = await addUser({ name, email }) // 🔥 pakai ini
 
-    alert("User ditambahkan");
-    // onAddUser(data);
-    setUsers((prev) => [newUser, prev])
+    alert("User ditambahkan")
 
-    // reset input
-    setName("");
-    setEmail("");
-  };
+    onAddUser(data) // 🔥 kirim ke parent
+
+    setName("")
+    setEmail("")
+  }
 
   return (
     <form onSubmit={handleSubmit} className="mb-4">

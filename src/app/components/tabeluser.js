@@ -2,21 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Form from "./formuser"
 
-
-async function getUsers() {
-  const res = await fetch("http://localhost:3001/users", {
-    cache: "no-store"
-  });
-
-  return res.json();
-}
 
 export default function tableuser({ initialUsers }) {
     const id = 0;
-    const router = useRouter();
-    // const users = await getUsers();
-    const [users, setUsers] = useState(initialUsers);
+    const [users, setUsers] = useState(initialUsers)
+    const [editingUser, setEditingUser] = useState(null)
+
 
     const handleDelete = async (id) => {
         if (!confirm("Yakin mau hapus user ini?")) return;
@@ -25,15 +18,27 @@ export default function tableuser({ initialUsers }) {
             method: "DELETE",
         })
 
-    // router.refresh();
-    
-
     // update UI langsung
     setUsers((prev) => prev.filter((user) => user.id !== id));
   }
 
   return (
-    <table className="w-full border border-gray-300 mt-5">
+    <div>
+      <Form
+        editingUser={editingUser}
+        onAddUser={(newUser) => {
+          setUsers((prev) => [newUser, ...prev])
+        }}
+        onUpdateUser={(updatedUser) => {
+          setUsers((prev) =>
+            prev.map((u) =>
+              u.id === updatedUser.id ? updatedUser : u
+            )
+          )
+          setEditingUser(null)
+        }}
+      />
+      <table className="w-full border border-gray-300 mt-5">
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className="p-3 text-left">No</th>
@@ -61,5 +66,7 @@ export default function tableuser({ initialUsers }) {
             )}
           </tbody>
         </table>
+    </div>
+    
   )
 }
