@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { addUser, updateUser } from "./api"
+import { addUser, updateUser } from "../../lib/api"
 
 export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
   const [name, setName] = useState("");
@@ -29,7 +29,6 @@ export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
     else {
       const data = await addUser({ name, email });// 🔥 pakai ini
       alert("User ditambahkan");
-      // Kirim ke parent / Page
       onAddUser(data);
     }
 
@@ -55,10 +54,13 @@ export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
         onChange={(e) => setEmail(e.target.value)}
         className="border p-2 mr-2"
       />
-
+      {/* <button className="bg-blue-500 text-white px-4 py-2 w-full">
+        {editingUser ? "Update" : "Tambah"}
+      </button> */}
       <button className="bg-blue-500 text-white px-4 py-2"> 
         {editingUser ? "Update" : "Tambah"} 
       </button>
+      
     </form>
   );
 }

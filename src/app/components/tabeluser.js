@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Form from "./formuser"
-import { deleteUser } from "./api"
+import { deleteUser } from "../../lib/api"
 
 
 export default function tableuser({ initialUsers }) {
-    const id = 0;
+
     const [users, setUsers] = useState(initialUsers)
     const [editingUser, setEditingUser] = useState(null)
-    
+    const [searchTerm, setSearchTerm] = useState("")
 
 
     const handleDelete = async (id) => {
@@ -23,8 +23,21 @@ export default function tableuser({ initialUsers }) {
       setUsers((prev) => prev.filter((user) => user.id !== id));
     } 
 
+    const filteredUsers = users.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
   return (
+    
     <div>
+      <input
+        type="text"
+        placeholder="Cari user..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="border p-2 rounded w-full mb-4"
+      />
       <Form
         editingUser={editingUser}
         onAddUser={(newUser) => {
@@ -51,7 +64,7 @@ export default function tableuser({ initialUsers }) {
 
           <tbody>
             {
-            users.map((user, index) => (
+            filteredUsers.map((user, index) => (
               <tr key={user.id } className="border-t hover:bg-gray-100">
                 <td className="p-3">{index+1}</td>
                 <td className="p-3">{user.name}</td>
