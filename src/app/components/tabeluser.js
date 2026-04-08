@@ -1,26 +1,27 @@
 "use client"
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Form from "./formuser"
+import { deleteUser } from "./api"
 
 
 export default function tableuser({ initialUsers }) {
     const id = 0;
     const [users, setUsers] = useState(initialUsers)
     const [editingUser, setEditingUser] = useState(null)
+    
 
 
     const handleDelete = async (id) => {
-        if (!confirm("Yakin mau hapus user ini?")) return;
+      if (!confirm("Yakin mau hapus user ini?")) return;
 
-        await fetch(`http://localhost:3001/users/${id}`, {
-            method: "DELETE",
-        })
+      const data = await deleteUser(id);
 
-    // update UI langsung
-    setUsers((prev) => prev.filter((user) => user.id !== id));
-  }
+      alert("User telah dihapus")
+
+      // update UI langsung
+      setUsers((prev) => prev.filter((user) => user.id !== id));
+    } 
 
   return (
     <div>
@@ -56,9 +57,13 @@ export default function tableuser({ initialUsers }) {
                 <td className="p-3">{user.name}</td>
                 <td className="p-3">{user.email}</td>
                 <td>
+                  <button onClick={() => setEditingUser(user)} className="p-3 bg-yellow-500 text-white px-2 py-1">
+                    Edit
+                  </button>
                   <button onClick={() => handleDelete(user.id)} className="p-3 bg-red-500 text-white px-3 py-1 rounded">
                     Delete
                   </button>
+                  
                 </td>
               </tr>
               

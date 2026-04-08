@@ -1,7 +1,7 @@
 import Link from "next/link";
 import TabelUser from "./components/tabeluser";
 import { getUsers } from "./components/api";
-import Form from "./components/formuser"
+
 
 export default async function Home() {
 
@@ -28,7 +28,7 @@ export default async function Home() {
             setUsers((prev) => [newUser, ...prev]) // 🔥 auto refresh
           }}
         /> */}
-        return <TabelUser initialUsers={users} />
+         <TabelUser initialUsers={users} />
         
       </div>
     </div>
