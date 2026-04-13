@@ -38,36 +38,59 @@ export default function formuser({ onAddUser, onUpdateUser, editingUser }) {
 
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <input
-        type="text"
-        placeholder="Nama"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="border p-2 mr-2"
-      />
+    <form onSubmit={handleSubmit} className="row g-2 mb-3">
+      <div className="col-md-5">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Nama"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border p-2 mr-2"
-      />
-      
-      <button className="bg-blue-500 text-white px-4 py-2"> 
-        {editingUser ? "Update" : "Tambah"} 
-      </button>
-      {editingUser && (
-        <button
-          type="button"
-          onClick={() => editingUser(null)}
-          className="bg-gray-500 text-white px-4 py-2 ml-2"
-        >
-          Cancel
+      <div className="col-md-5">
+        <input
+          type="email"
+          className="form-control"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+
+      <div className="col-md-2 d-flex gap-2">
+        <button className="btn btn-primary w-100">
+          {editingUser ? "Update" : "Tambah"}
         </button>
-      )}
-      
+      </div>
     </form>
+
+    // <form onSubmit={handleSubmit} >
+    //   <div className="mb-3">
+    //     <input type="text" placeholder="Nama" value={name} onChange={(e) => setName(e.target.value)} className="form-control" />
+    //   </div>
+    //   <div className="mb-3">
+    //     <input type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
+    //   </div>
+
+      
+    //   <div className="mb-3">
+    //     <button type="submit" className="btn btn-primary"> 
+    //       {editingUser ? "Update" : "Tambah"} 
+    //     </button>
+    //     {editingUser && (
+    //       <button
+    //         type="button"
+    //         onClick={() => editingUser(null)}
+    //         className="btn btn-secondary"
+    //       >
+    //         Cancel
+    //       </button>
+    //     )}
+    //   </div>
+      
+      
+    // </form>
   );
 }

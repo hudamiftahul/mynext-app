@@ -1,5 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "bootstrap5/src/css/bootstrap.min.css";
+import Sidebar from "./components/sidebar"
+import Link from "next/link";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,11 +23,56 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en">
+      <head>
+        < link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+      </head>
+        
+      <body className="sb-nav-fixed">
+
+        {/* 🔥 NAVBAR */}
+        <nav className="navbar navbar-dark bg-dark px-3">
+          <span className="navbar-brand">Huda App</span>
+        </nav>
+
+        <div className="d-flex">
+          <Sidebar />
+
+          {/* <div className="bg-dark text-white p-3" style={{ width: "250px", minHeight: "100vh" }}>
+            <ul className="nav flex-column">
+              <li className="nav-item">
+                <Link href="/" className="nav-link text-white">
+                  Dashboard
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/user" className="nav-link text-white">
+                  User
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/kategori" className="nav-link text-white">
+                  Kategori
+                </Link>
+                
+              </li>
+            </ul>
+          </div> */}
+
+          {/* 🔥 CONTENT (INI YANG BERUBAH) */}
+          <div className="flex-grow-1 p-4 bg-light">
+            {children}
+          </div>
+
+        </div>
+      </body>
     </html>
+    // <html
+    //   lang="en"
+    //   className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    // >
+    //   {/* <body className="min-h-full flex flex-col">{children}</body> */}
+    //   <body >{children}</body>
+    // </html>
   );
 }
