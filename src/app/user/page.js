@@ -2,8 +2,6 @@
 import TabelUser from "../components/tabeluser";
 import { getUsers } from "../../lib/api";
 
-
-
 export default async function User() {
 
   const users = await getUsers();

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react";
-import Form from "./formuser"
-import { deleteUser } from "../../lib/api"
+import { deleteUser } from "../../lib/api";
+import FormUserModal from "./formusermodal";
 
 
 export default function tableuser({ initialUsers }) {
@@ -10,16 +10,15 @@ export default function tableuser({ initialUsers }) {
   const [users, setUsers] = useState(initialUsers)
   const [editingUser, setEditingUser] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showModal, setShowModal] = useState(false);
+  
 
 
   const handleDelete = async (id) => {
     if (!confirm("Yakin mau hapus user ini?")) return;
 
     const data = await deleteUser(id);
-
-    alert("User telah dihapus")
-
-    // update UI langsung
+    alert("User telah dihapus");
     setUsers((prev) => prev.filter((user) => user.id !== id));
   }
 
@@ -29,33 +28,64 @@ export default function tableuser({ initialUsers }) {
   )
 
   return (
+
     <div className="card shadow">
+      <FormUserModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        editingUser={editingUser}
+        onAddUser={(newUser) => {
+          setUsers((prev) => [newUser, ...prev]);
+        }}
+        onUpdateUser={(updatedUser) => {
+          setUsers((prev) =>
+            prev.map((u) =>
+              u.id === updatedUser.id ? updatedUser : u
+            )
+          );
+        }}
+      />
       <div className="card-header d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">Data User</h5>
+        <h5 className="mb-0">Tabel User</h5>
       </div>
 
       <div className="card-body">
-
-        <Form
-          editingUser={editingUser}
-          onAddUser={(newUser) => {
-            setUsers((prev) => [newUser, ...prev])
-          }}
-          onUpdateUser={(updatedUser) => {
-            setUsers((prev) =>
-              prev.map((u) =>
-                u.id === updatedUser.id ? updatedUser : u
-              )
-            )
-            setEditingUser(null)
-          }}
-        />
-
-        <div className="row g-2 mb-3">
-          <div className="col-md-2 d-flex gap-2">
+        <div className="row">
+          <div className="col-sm-3 mb-4">
+              <button
+                className="btn btn-primary btn-xl"
+                onClick={() => {
+                  setEditingUser(null);
+                  setShowModal(true);
+                }}
+              ><i className="fas fa-plus"></i> Add</button>
           </div>
-          <div className="col-md-5"></div>
-          <div className="col-md-5 ">
+          <div className="col-sm-9 ">
+              <input
+                type="text"
+                placeholder="Cari user..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="form-control"
+                aria-label="default input example"
+              />
+          </div>
+        </div>
+
+        {/* <div className="row g-2 mb-2">
+          <div className="col-xl-3 col-md-6">
+            <button
+              className="btn btn-primary "
+              onClick={() => {
+                setEditingUser(null);
+                setShowModal(true);
+              }}
+            >
+              Tambah User
+            </button>
+          </div>
+
+          <div className="col-xl-3 col-md-6">
             <input
               type="text"
               placeholder="Cari user..."
@@ -65,13 +95,13 @@ export default function tableuser({ initialUsers }) {
               aria-label="default input example"
             />
           </div>
-        </div>
+        </div> */}
         {/* 🔥 TABLE */}
         <div className="table-responsive">
           <table className="table table-bordered">
             <thead className="table-dark">
               <tr>
-                <th>No</th>
+                <th>#</th>
                 <th>Nama</th>
                 <th>Email</th>
                 <th width="150">Action</th>
@@ -86,12 +116,19 @@ export default function tableuser({ initialUsers }) {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
-                      <button onClick={() => setEditingUser(user)} className="btn btn-warning">
-                        Edit
-                      </button>
-                      <button onClick={() => handleDelete(user.id)} className="btn btn-danger">
-                        Delete
-                      </button>
+                        <button onClick={() => {
+                          setEditingUser(user);
+                          setShowModal(true);
+                        }}
+                          className="btn btn-warning btn-sm me-2" title="Edit User">
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button onClick={() => handleDelete(user.id)} className="btn btn-danger btn-sm" title="Delete User">
+                          <i className="fas fa-trash"></i>
+                        </button>
+           
+
+
 
                     </td>
                   </tr>
